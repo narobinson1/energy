@@ -43,15 +43,18 @@ def calculateEnergy(F_list, A_list, L_list):
     
 
 
-total_energy = 25400
-
+total_energy = 60000
+max = 0
 for i in range(6,9):
     for j in range(1,5):
         for k in range(4,25):
             temp = calculateEnergy(F_list, A_list, L_list)
-            if temp == total_energy:
-                print("i:", i)
-                print("j:", j)
-                print("k:", k)
+            if temp <= total_energy:
+                if temp > max:
+                    max = temp
+                    max_index = (i,j,k)
+                
+print(max)
+print(max_index)
 
 

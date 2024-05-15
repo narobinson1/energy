@@ -1,11 +1,12 @@
 const appliancePowers = {
-    "Fridge": 2000,
-    "Washing machine": 1500,
-    "TV": 500,
-    "Freezer": 2500,
-    "Dishwasher": 3000,
-    "Small Light": 100,
-    "Big Light": 800,
+    "Fridge": 2,
+    "Washing machine": 1.5,
+    "TV": 0.5,
+    "Freezer": 2.5,
+    "Dishwasher": 2.5,
+    "Induction stove": 3,
+    "Small Light": 0.1,
+    "Big Light": 0.8,
 }
 const applianceCategories = {
     "Fridge": "F",
@@ -13,6 +14,7 @@ const applianceCategories = {
     "TV": "L",
     "Freezer": "F",
     "Dishwasher": "A",
+    "Induction stove": "A",
     "Small Light": "L",
     "Big Light": "L",
 }
@@ -22,6 +24,8 @@ const categoryDuration = {
     "L":[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 }
 
+let appliances = ["Fridge","Freezer","Dishwasher","Small Light"]
+
 function sortIntoCategories(listOfSelectedAppliances) {
     const F_list = []
     const A_list = []
@@ -30,10 +34,13 @@ function sortIntoCategories(listOfSelectedAppliances) {
         switch(applianceCategories[appliance]) {
             case "F":
                 F_list.push(appliance)
+                break
             case "A":
                 A_list.push(appliance)
+                break
             case "L":
                 L_list.push(appliance)
+                break
         }
     })
     return {
@@ -42,6 +49,8 @@ function sortIntoCategories(listOfSelectedAppliances) {
         "L": L_list,
     }
 }
+
+console.log(sortIntoCategories(appliances))
 
 function computeEnergy(appliancesInCategoryLists, i, j, k) {
     const F_count = appliancesInCategoryLists["F"].length
@@ -64,19 +73,66 @@ function computeEnergy(appliancesInCategoryLists, i, j, k) {
     return energy
 }
 
-// ["Fridge", "Freezer", "Dishwasher", "Small Light"]
-export default function computeEnergyOfAppliances(listOfSelectedAppliances, totalEnergy) {
+export function computeMinimumEnergy(listOfSelectedAppliances){
     const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
-    for (let i=categoryDuration["F"][0];i<categoryDuration["F"][-1];i++) {
-        for (let j=categoryDuration["A"][0];j<categoryDuration["A"][-1];j++) {
-            for (let k=categoryDuration["L"][0];k<categoryDuration["L"][-1];k++) {
+    return Math.round(computeEnergy(appliancesInCategoryLists, categoryDuration["F"][0], categoryDuration["A"][0], categoryDuration["L"][0]))
+}
+
+console.log(computeEnergy(sortIntoCategories(appliances), 6,4,4))
+
+// ["Fridge", "Freezer", "Dishwasher", "Small Light"]
+function findHoursOfAppliances(listOfSelectedAppliances, totalEnergy) {
+    const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
+    let max = 0
+    let max_index = 0
+    let i_start =categoryDuration["F"][0]
+    let i_end =categoryDuration["F"][categoryDuration["F"].length-1]
+    let j_start =categoryDuration["A"][0]
+    let j_end =categoryDuration["A"][categoryDuration["A"].length-1]
+    let k_start =categoryDuration["L"][0]
+    let k_end =categoryDuration["L"][categoryDuration["L"].length-1]
+    for (let i=i_start;i<i_end+1;i++) {
+        for (let j=j_start;j<j_end+1;j++) {
+            for (let k=k_start;k<k_end+1;k++) {
                 let temp = computeEnergy(appliancesInCategoryLists, i, j, k)
-                if (temp == totalEnergy) {
-                    console.log("i:", i)
-                    console.log("j:", j)
-                    console.log("k:", k)
+                if (temp<=totalEnergy) {
+                    if (temp>max) {
+                        max_index=[i,j,k]
+                    }
                 }
             }
         }
     }
+    return max_index
 }
+
+export default function computeEnergyOfAppliances(listOfSelectedAppliances, totalEnergy){
+    const hoursOfAppliances = findHoursOfAppliances(listOfSelectedAppliances, totalEnergy)
+    const fHours = hoursOfAppliances[0]
+    const aHours = hoursOfAppliances[1]
+    const lHours = hoursOfAppliances[2]
+    const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
+    const F_count = appliancesInCategoryLists["F"].length
+    const A_count = appliancesInCategoryLists["A"].length
+    const L_count = appliancesInCategoryLists["L"].length
+    const applianceEnergies = {}
+    const F_multiplier = fHours/F_count
+    const A_multiplier = aHours/A_count
+    const L_multiplier = lHours/L_count
+    listOfSelectedAppliances.map((appliance)=>{
+        switch(applianceCategories[appliance]){
+            case "F":
+                applianceEnergies[appliance] = F_multiplier*appliancePowers[appliance]
+                break
+            case "A":
+                applianceEnergies[appliance] = A_multiplier*appliancePowers[appliance]
+                break
+            case "L":
+                applianceEnergies[appliance] = L_multiplier*appliancePowers[appliance]
+                break
+        }
+    })
+    return applianceEnergies
+}
+
+console.log(computeEnergyOfAppliances(appliances, 60000))

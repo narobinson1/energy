@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
 
 export function ApplianceCard({
     title,
-    toggleAppliance
+    toggleAppliance,
+    selectedAppliances,
   }: {
     title: string;
     toggleAppliance: any;
+    selectedAppliances:any;
   }) {
   
     const [toggled, setToggled] = useState(false)
@@ -22,14 +24,19 @@ export function ApplianceCard({
         setToggled(false)
       }
     }
+    useEffect(()=>{
+      if (selectedAppliances.indexOf(title)!=-1){
+        setToggled(true)
+      }
+    }, [selectedAppliances])
     return (
-      <div className="inline-block pr-8 pb-4">
+      <div className="inline-block pr-8 pb-6">
         <button 
           className={clsx(
-            'border-2 px-6 py-4',
+            'border px-6 py-4 text-2xl rounded-lg',
             {
-              'border-zinc-300': toggled == false,
-              'border-blue-300': toggled == true,
+              'border-zinc-300 transition-colors ease-in duration-200': toggled == false,
+              'bg-blue-100 transition-colors ease-in duration-200': toggled == true,
             },
           )}
           value={title}

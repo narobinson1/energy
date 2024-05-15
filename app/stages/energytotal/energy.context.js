@@ -25,6 +25,7 @@ export const EnergyContextProvider = ({children}) => {
                 totalEnergy,
                 energies,
                 saveTotalEnergy,
+                saveEnergies,
             }}
         >
             {children}
