@@ -15,7 +15,7 @@ export function InfoCard({
     useEffect(()=>{
       setTimeout(()=>{
         setLoad(true)
-      }, numberOfAppliances*300)
+      }, numberOfAppliances*2000)
     },[])
     return (
         <div className={clsx(
