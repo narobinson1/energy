@@ -18,11 +18,10 @@ const maximumDailyEnergyUsage = 75
 export default function Step3() {
   const router = useRouter()
   const [totalEnergy, setTotalEnergy] = useState(0)
+  const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)
   // const { appliances } = useContext(ApplianceContext)
-  const appliancesStringified:any = localStorage.getItem("appliances")
-  const appliances=JSON.parse(appliancesStringified)
   const minimumDailyEnergyUsage = computeMinimumEnergy(appliances)
 
   const onEnergyUsageChange = (e: any) => {
@@ -57,6 +56,9 @@ export default function Step3() {
       let storedTotalEnergy:any = localStorage.getItem("totalEnergy")
       setTotalEnergy(storedTotalEnergy)
     }
+    const appliancesStringified:any = localStorage.getItem("appliances")
+    const appliances=JSON.parse(appliancesStringified)
+    setAppliances(appliances)
     setLoad(true)
   }, [])
   return (

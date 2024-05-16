@@ -14,12 +14,11 @@ import clsx from "clsx";
 
 export default function Home() {
   // const { email } = useContext(EmailContext)
-  const email=localStorage.getItem("email") || ''
-  const appliancesStringified:any=localStorage.getItem("appliances") || ''
-  const appliances=JSON.parse(appliancesStringified)
-  const totalEnergy=localStorage.getItem("totalEnergy") || ''
-  const energiesStringified:any=localStorage.getItem("energies") || ''
-  const energies =JSON.parse(energiesStringified)
+  const [email,setEmail]=useState('')
+  const [appliances,setAppliances]=useState([''])
+  const [totalEnergy,setTotalEnergy]=useState('')
+  const [energies,setEnergies]=useState('')
+  const [items,setItems]=useState([['']])
   const [load,setLoad]=useState(false)
   const appliancesOrder = []
   const appliances_test = Object.keys(energies)
@@ -28,18 +27,29 @@ export default function Home() {
   //   "Freezer": 2000,
   //   "Dishwasher": 500,
   // }
-  var items = Object.keys(energies).map(function(key) {
-    let rounded_energy = energies[key]
-    let rounded_percentage = energies[key]/Number(totalEnergy)
-    return [key, rounded_energy, rounded_percentage];
-  });
-  items.sort(function(first, second) {
-    return second[1] - first[1];
-  });
-  items.map((item)=>{
-    item.unshift(items.indexOf(item)+1)
-  })
   useEffect(()=>{
+    const email=localStorage.getItem("email") || ''
+    setEmail(email)
+    const appliancesStringified:any=localStorage.getItem("appliances") || ''
+    const appliances=JSON.parse(appliancesStringified)
+    setAppliances(appliances)
+    const totalEnergy=localStorage.getItem("totalEnergy") || ''
+    setTotalEnergy(totalEnergy)
+    const energiesStringified:any=localStorage.getItem("energies") || ''
+    const energies =JSON.parse(energiesStringified)
+    setEnergies(energies)
+    var items = Object.keys(energies).map(function(key) {
+      let rounded_energy = energies[key]
+      let rounded_percentage = energies[key]/Number(totalEnergy)
+      return [key, rounded_energy, rounded_percentage];
+    });
+    items.sort(function(first, second) {
+      return second[1] - first[1];
+    });
+    items.map((item)=>{
+      item.unshift(items.indexOf(item)+1)
+    })
+    setItems(items)
     setLoad(true)
   }, [])
   return (
@@ -75,9 +85,12 @@ export default function Home() {
               <div className="mx-auto">Energy (kWh)</div>
               <div className="mx-auto">Relative to total</div>
             </div>
-            {items.map((item) => (
-                <ResultCard key={item[0]} ranking={item[0]} title={item[1]} energy={Math.round(item[2])} percentageEnergy={Math.round(item[3]*100)+"%"}/>
-            ))}
+            {items.map((item) => {
+
+              return (
+                <ResultCard key={item[0]} ranking={Number(item[0])} title={item[1]} energy={Math.round(Number(item[2]))} percentageEnergy={Math.round(Number(item[3])*100)+"%"}/>
+            )
+            })}
           </div>
           <InfoCard email={email} appliances={appliances} totalEnergy={totalEnergy}/>
         </div>
