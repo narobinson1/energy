@@ -14,11 +14,11 @@ import clsx from "clsx";
 
 export default function Home() {
   // const { email } = useContext(EmailContext)
-  const email:string=localStorage.getItem("email")
-  const appliancesStringified:any=localStorage.getItem("appliances")
+  const email=localStorage.getItem("email") || ''
+  const appliancesStringified:any=localStorage.getItem("appliances") || ''
   const appliances=JSON.parse(appliancesStringified)
-  const totalEnergy=localStorage.getItem("totalEnergy")
-  const energiesStringified:any=localStorage.getItem("energies")
+  const totalEnergy=localStorage.getItem("totalEnergy") || ''
+  const energiesStringified:any=localStorage.getItem("energies") || ''
   const energies =JSON.parse(energiesStringified)
   const [load,setLoad]=useState(false)
   const appliancesOrder = []
