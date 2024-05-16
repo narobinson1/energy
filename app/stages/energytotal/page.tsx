@@ -76,7 +76,7 @@ export default function Step3() {
         <input 
             className="border-2 border-zinc-300 w-3/4 h-14 rounded-2xl px-6" 
             type="text"
-            value={totalEnergy}
+            value={totalEnergy != 0 ? totalEnergy : ''}
             placeholder="Total energy in kWh"
             onChange={onEnergyUsageChange}
         >
