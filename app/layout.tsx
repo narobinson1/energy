@@ -1,7 +1,3 @@
-import { EmailContextProvider } from '@/app/stages/email/email.context'
-import { ApplianceContextProvider } from '@/app/stages/appliances/appliance.context';
-import { EnergyContextProvider } from '@/app/stages/energytotal/energy.context';
-
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -20,11 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        <EmailContextProvider>
-          <ApplianceContextProvider>
-            <EnergyContextProvider>{children}</EnergyContextProvider>
-          </ApplianceContextProvider>
-        </EmailContextProvider>
+        {children}
       </body>
     </html>
   );

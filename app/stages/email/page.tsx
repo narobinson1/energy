@@ -2,7 +2,6 @@
 
 import { useState, useContext, useEffect, useRef, SetStateAction } from "react";
 import { useRouter } from 'next/navigation'
-import { EmailContext } from '@/app/stages/email/email.context'
 import clsx from 'clsx';
 
 import styles from '@/app/landing.module.css'
@@ -17,7 +16,6 @@ export default function Step1() {
   let emailInput = useRef(email)
   const [load, setLoad] = useState(false)
   const [validBoolean, setValidBoolean] = useState(true)
-  const { saveEmail } = useContext(EmailContext);
   const router = useRouter()
 
   const handleEmailChange = (e: { target: { value: SetStateAction<string>; }; }) => {
@@ -25,17 +23,20 @@ export default function Step1() {
     setEmail(e.target.value)
   }
 
+  const saveEmailInLocalStorage = (email: any)=>{
+    localStorage.setItem("email",email)
+  }
+  
   const handleEmailSubmit = () => {
     if (validateEmail(email) == true) {
-      saveEmail(email)
-      localStorage.setItem("email",email)
+      saveEmailInLocalStorage(email)
       router.push('/stages/appliances')
     } else {
       setValidBoolean(false)
     }
   }
 
-  function validateEmail(email) {
+  function validateEmail(email: string) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }

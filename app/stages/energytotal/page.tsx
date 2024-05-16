@@ -4,8 +4,6 @@ import computeEnergyOfAppliances, { computeMinimumEnergy } from '@/app/lib/compu
 
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { EnergyContext } from '@/app/stages/energytotal/energy.context'
-import { ApplianceContext } from '@/app/stages/appliances/appliance.context'
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
@@ -22,7 +20,6 @@ export default function Step3() {
   const [totalEnergy, setTotalEnergy] = useState(0)
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)
-  const { saveTotalEnergy, saveEnergies } = useContext(EnergyContext)
   // const { appliances } = useContext(ApplianceContext)
   const appliancesStringified:any = localStorage.getItem("appliances")
   const appliances=JSON.parse(appliancesStringified)
@@ -35,19 +32,31 @@ export default function Step3() {
       setValidBoolean(true)
     }
   }
+  
+  const saveTotalEnergyInLocalStorage = ()=>{
+    localStorage.setItem("totalEnergy",totalEnergy.toString())
+  }
+
+  const saveEnergiesInLocalStorage = (energies: any)=>{
+    let energiesStringified=JSON.stringify(energies)
+    localStorage.setItem("energies",energiesStringified)
+  }
 
   const handleSubmitTotalEnergy=()=>{
-    if (totalEnergy > minimumDailyEnergyUsage && totalEnergy < maximumDailyEnergyUsage) {
-        saveTotalEnergy(totalEnergy)
-        localStorage.setItem("totalEnergy",totalEnergy.toString())
+    if (totalEnergy >= minimumDailyEnergyUsage && totalEnergy <= maximumDailyEnergyUsage) {
+        saveTotalEnergyInLocalStorage()
         const applianceEnergies = computeEnergyOfAppliances(appliances, totalEnergy)
-        saveEnergies(applianceEnergies)
+        saveEnergiesInLocalStorage(applianceEnergies)
         router.push('/stages/results')
     } else {
         setValidBoolean(false)
     }
   }
   useEffect(()=>{
+    if (localStorage.getItem("totalEnergy")!=null){
+      let storedTotalEnergy:any = localStorage.getItem("totalEnergy")
+      setTotalEnergy(storedTotalEnergy)
+    }
     setLoad(true)
   }, [])
   return (
@@ -70,6 +79,7 @@ export default function Step3() {
         <input 
             className="border-2 border-zinc-300 w-3/4 h-14 rounded-2xl px-6" 
             type="text"
+            value={totalEnergy}
             placeholder="Total energy in kWh"
             onChange={onEnergyUsageChange}
         >

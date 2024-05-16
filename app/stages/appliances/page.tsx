@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useContext, useEffect } from 'react';
-import { ApplianceContext } from '@/app/stages/appliances/appliance.context';
 import { ApplianceCard } from '@/app/ui/appliances/appliance-card';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
@@ -29,7 +28,6 @@ export default function Step2() {
   const [selectedAppliances, setSelectedAppliances] = useState([""])
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)
-  const { saveAppliances } = useContext(ApplianceContext)
 
   const handleToggleAppliance = (appliance: string) => {
     const index = selectedAppliances.indexOf(appliance)
@@ -40,14 +38,17 @@ export default function Step2() {
       setSelectedAppliances(selectedAppliances.filter((app) => app !== appliance))
     }
   }
+  
+  const saveAppliancesInLocalStorage = (selectedAppliances: any)=>{
+    let appliancesStringified=JSON.stringify(selectedAppliances)
+    localStorage.setItem("appliances",appliancesStringified)
+  }
 
   const handleSubmitAppliances=()=>{
     if (selectedAppliances.length <= 1 ) {
       setValidBoolean(false)
     } else {
-      saveAppliances(selectedAppliances)
-      let appliancesStringified=JSON.stringify(selectedAppliances)
-      localStorage.setItem("appliances",appliancesStringified)
+      saveAppliancesInLocalStorage(selectedAppliances)
       router.push('/stages/energytotal')
     }
   }
