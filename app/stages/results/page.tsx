@@ -14,7 +14,7 @@ import clsx from "clsx";
 
 export default function Home() {
   // const { email } = useContext(EmailContext)
-  const email=localStorage.getItem("email")
+  const email:string=localStorage.getItem("email")
   const appliancesStringified:any=localStorage.getItem("appliances")
   const appliances=JSON.parse(appliancesStringified)
   const totalEnergy=localStorage.getItem("totalEnergy")
@@ -30,7 +30,7 @@ export default function Home() {
   // }
   var items = Object.keys(energies).map(function(key) {
     let rounded_energy = energies[key]
-    let rounded_percentage = energies[key]/totalEnergy
+    let rounded_percentage = energies[key]/Number(totalEnergy)
     return [key, rounded_energy, rounded_percentage];
   });
   items.sort(function(first, second) {
