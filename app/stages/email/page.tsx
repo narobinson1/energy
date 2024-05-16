@@ -1,11 +1,8 @@
 'use client'
 
-import { useState, useContext, useEffect, useRef, SetStateAction } from "react";
+import { useState, useContext, useEffect, SetStateAction } from "react";
 import { useRouter } from 'next/navigation'
 import clsx from 'clsx';
-
-import styles from '@/app/landing.module.css'
-import Image from "next/image";
 import Link from "next/link";
 import { NavigationButton } from "@/app/ui/button";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,13 +10,11 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
 export default function Step1() {
   const [email, setEmail] = useState("")
-  let emailInput = useRef(email)
   const [load, setLoad] = useState(false)
   const [validBoolean, setValidBoolean] = useState(true)
   const router = useRouter()
 
   const handleEmailChange = (e: { target: { value: SetStateAction<string>; }; }) => {
-    console.log(e.target.value)
     setEmail(e.target.value)
   }
 

@@ -7,9 +7,6 @@ import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-
-import styles from '@/app/landing.module.css'
-import Image from "next/image";
 import Link from "next/link";
 import { NavigationButton } from '@/app/ui/button';
 
@@ -21,11 +18,9 @@ export default function Step3() {
   const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)
-  // const { appliances } = useContext(ApplianceContext)
   const minimumDailyEnergyUsage = computeMinimumEnergy(appliances)
 
   const onEnergyUsageChange = (e: any) => {
-    console.log(e)
     setTotalEnergy(e.target.value)
     if (totalEnergy > 0 && totalEnergy < maximumDailyEnergyUsage) {
       setValidBoolean(true)

@@ -6,9 +6,6 @@ import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-
-import styles from '@/app/landing.module.css'
-import Image from "next/image";
 import Link from "next/link";
 import { NavigationButton } from '@/app/ui/button';
 

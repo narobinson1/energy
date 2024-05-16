@@ -6,27 +6,17 @@ import { InfoCard } from '@/app/ui/results/info-card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRotateLeft } from "@fortawesome/free-solid-svg-icons"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
-
-import styles from '@/app/landing.module.css'
-import Image from "next/image";
 import Link from 'next/link';
 import clsx from "clsx";
 
 export default function Home() {
-  // const { email } = useContext(EmailContext)
   const [email,setEmail]=useState('')
   const [appliances,setAppliances]=useState([''])
   const [totalEnergy,setTotalEnergy]=useState('')
   const [energies,setEnergies]=useState('')
   const [items,setItems]=useState([['']])
   const [load,setLoad]=useState(false)
-  const appliancesOrder = []
-  const appliances_test = Object.keys(energies)
-  // {
-  //   "Fridge": 1000,
-  //   "Freezer": 2000,
-  //   "Dishwasher": 500,
-  // }
+
   useEffect(()=>{
     const email=localStorage.getItem("email") || ''
     setEmail(email)

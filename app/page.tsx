@@ -1,9 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import styles from '@/app/landing.module.css'
-import Image from "next/image";
-import Link from 'next/link';
 import { NavigationButton } from './ui/button';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx'
