@@ -24,8 +24,6 @@ const categoryDuration = {
     "L":[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 }
 
-let appliances = ["Fridge","Freezer","Dishwasher","Small Light"]
-
 function sortIntoCategories(listOfSelectedAppliances) {
     const F_list = []
     const A_list = []
@@ -50,10 +48,9 @@ function sortIntoCategories(listOfSelectedAppliances) {
     }
 }
 
-console.log(sortIntoCategories(appliances))
-
 function computeEnergy(appliancesInCategoryLists, i, j, k) {
     const F_count = appliancesInCategoryLists["F"].length
+    let fListLength = appliancesInCategoryLists["F"]
     const A_count = appliancesInCategoryLists["A"].length
     const L_count = appliancesInCategoryLists["L"].length
 
@@ -69,18 +66,32 @@ function computeEnergy(appliancesInCategoryLists, i, j, k) {
     appliancesInCategoryLists["L"].map((appliance)=>{
         L_sum += appliancePowers[appliance]
     })
-    const energy = (i/F_count)*(F_sum) + (j/A_count)*(A_sum) + (k/L_count)*(L_sum)
+    let energy = 0
+    if (F_count != 0){
+        let fEnergy = (i/F_count)*(F_sum)
+        energy += fEnergy
+    }
+    if (A_count != 0){
+        let aEnergy = (j/A_count)*(A_sum)
+        energy += aEnergy
+    }
+    if (L_count != 0){
+        let lEnergy = (k/L_count)*(L_sum)
+        energy += lEnergy
+    }
     return energy
 }
 
 export function computeMinimumEnergy(listOfSelectedAppliances){
     const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
-    return Math.round(computeEnergy(appliancesInCategoryLists, categoryDuration["F"][0], categoryDuration["A"][0], categoryDuration["L"][0]))
+    let fHour = categoryDuration["F"][0]
+    let aHour = categoryDuration["A"][0]
+    let lHour = categoryDuration["L"][0]
+    let minimumEnergy = computeEnergy(appliancesInCategoryLists, fHour, aHour, lHour)
+    let minimumEnergyRounded = Math.round(minimumEnergy)
+    return minimumEnergyRounded
 }
 
-console.log(computeEnergy(sortIntoCategories(appliances), 6,4,4))
-
-// ["Fridge", "Freezer", "Dishwasher", "Small Light"]
 function findHoursOfAppliances(listOfSelectedAppliances, totalEnergy) {
     const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
     let max = 0
@@ -134,5 +145,3 @@ export default function computeEnergyOfAppliances(listOfSelectedAppliances, tota
     })
     return applianceEnergies
 }
-
-console.log(computeEnergyOfAppliances(appliances, 60000))

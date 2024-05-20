@@ -18,7 +18,7 @@ export default function Step3() {
   const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)
-  const minimumDailyEnergyUsage = computeMinimumEnergy(appliances)
+  const [minimumDailyEnergyUsage, setMinimumDailyEnergyUsage]=useState(0)
 
   const onEnergyUsageChange = (e: any) => {
     setTotalEnergy(e.target.value)
@@ -54,6 +54,8 @@ export default function Step3() {
     const appliancesStringified:any = localStorage.getItem("appliances")
     const appliances=JSON.parse(appliancesStringified)
     setAppliances(appliances)
+    let minimumEnergy = computeMinimumEnergy(appliances)
+    setMinimumDailyEnergyUsage(minimumEnergy)
     setLoad(true)
   }, [])
   return (
