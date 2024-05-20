@@ -22,7 +22,6 @@ const appliances = [
 
 export default function Step2() {
   const router = useRouter()
-  router.prefetch("/stages/energytotal")
   const [selectedAppliances, setSelectedAppliances] = useState([""])
   const [validBoolean, setValidBoolean] = useState(true)
   const [load, setLoad]=useState(false)

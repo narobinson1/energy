@@ -14,7 +14,6 @@ const maximumDailyEnergyUsage = 75
 
 export default function Step3() {
   const router = useRouter()
-  router.prefetch("/stages/results")
   const [totalEnergy, setTotalEnergy] = useState(0)
   const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
