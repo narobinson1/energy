@@ -78,7 +78,7 @@ export default function Home() {
             {items.map((item) => {
 
               return (
-                <ResultCard key={item[0]} ranking={Number(item[0])} title={item[1]} energy={Math.round(Number(item[2]))} percentageEnergy={Math.round(Number(item[3])*100)+"%"}/>
+                <ResultCard key={item[0]} ranking={Number(item[0])} title={item[1]} energy={Math.round(Number(item[2])) == 0 ? 1 : Math.round(Number(item[2]))} percentageEnergy={Math.round(Number(item[3])*100)+"%"}/>
             )
             })}
           </div>

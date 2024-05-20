@@ -76,7 +76,7 @@ export default function Step1() {
           <p>Email not valid</p>
         </div>
       </div>
-        <NavigationButton onSubmit={handleEmailSubmit} content="Next"/>
+      <NavigationButton onSubmit={handleEmailSubmit} content="Next"/>
     </div>
   );
 }
