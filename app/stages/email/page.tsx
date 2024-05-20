@@ -13,6 +13,7 @@ export default function Step1() {
   const [load, setLoad] = useState(false)
   const [validBoolean, setValidBoolean] = useState(true)
   const router = useRouter()
+  router.prefetch("/stages/appliances")
 
   const handleEmailChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setEmail(e.target.value)
