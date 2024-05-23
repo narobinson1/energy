@@ -1,6 +1,6 @@
 'use client'
 
-import computeEnergyOfAppliances, { computeMinimumEnergy } from '@/app/lib/computeEnergyOfAppliances'
+import computeEnergyOfAppliances, { computeMinimumEnergy } from '@/app/lib/compute-energy'
 
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
