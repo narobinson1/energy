@@ -19,7 +19,7 @@ export function InfoCard({
     },[])
     return (
         <div className={clsx(
-        'bg-zinc-100 inline-block w-4/5 my-28 rounded-lg',
+        'bg-zinc-100 inline-block w-4/5 rounded-lg',
         {
           'transition-opacity ease-in duration-1000 opacity-100': load == true,
           'opacity-0': load==false,

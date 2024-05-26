@@ -8,8 +8,9 @@ import { faRotateLeft } from "@fortawesome/free-solid-svg-icons"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import Link from 'next/link';
 import clsx from "clsx";
+import BasicPie from "@/app/ui/results/basic-pie";
 
-export default function Home() {
+export default function Results() {
   const [email,setEmail]=useState('')
   const [appliances,setAppliances]=useState([''])
   const [totalEnergy,setTotalEnergy]=useState('')
@@ -67,8 +68,8 @@ export default function Home() {
         </div>
       </Link>
       <div className="relative top-14">
-        <div className="grid grid-cols-3">
-          <div className="col-span-2 mx-auto left-10 w-4/5 my-6">
+        <div className="grid grid-cols-10">
+          <div className="col-span-6 mx-auto left-10 w-4/5 my-6">
             <div className="my-4 py-4 px-4 grid grid-cols-4 gap-3 justify-center font-medium">
               <div className="mx-auto">No.</div>
               <div className="mx-auto">Appliance</div>
@@ -82,7 +83,12 @@ export default function Home() {
             )
             })}
           </div>
-          <InfoCard email={email} appliances={appliances} totalEnergy={totalEnergy}/>
+          <div className="col-span-4 inline-block my-2 w-4/5 mx-auto">
+            <div className="h-96 w-96">
+              <BasicPie items={items}/>
+            </div>
+            {/* <InfoCard email={email} appliances={appliances} totalEnergy={totalEnergy}/> */}
+          </div>
         </div>
       </div>
     </div>
