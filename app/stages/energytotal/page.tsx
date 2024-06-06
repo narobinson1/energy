@@ -48,11 +48,13 @@ export default function EnergyTotalPage() {
   }
   useEffect(()=>{
     if (localStorage.getItem("totalEnergy")!=null){
-      let storedTotalEnergy: SetStateAction<number> = Number(localStorage.getItem("totalEnergy")) || -1
+      let storedTotalEnergy: any = localStorage.getItem("totalEnergy") || ''
       setTotalEnergy(storedTotalEnergy)
     }
-    setAppliances(parseLocalStorage(localStorage, "appliances"))
-    setMinimumDailyEnergyUsage(computeMinimumEnergy(appliances))
+    let appliances = parseLocalStorage(localStorage, "appliances")
+    setAppliances(appliances)
+    let minimumEnergy = computeMinimumEnergy(appliances)
+    setMinimumDailyEnergyUsage(minimumEnergy)
     setLoad(true)
   }, [])
   return (
