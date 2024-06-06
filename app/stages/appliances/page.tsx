@@ -20,7 +20,7 @@ const appliances = [
     "Big Light",
 ]
 
-export default function Step2() {
+export default function AppliancesPage() {
   const router = useRouter()
   const [selectedAppliances, setSelectedAppliances] = useState([""])
   const [validBoolean, setValidBoolean] = useState(true)
@@ -59,44 +59,34 @@ export default function Step2() {
     setLoad(true)
   }, [])
   return (
-    <div className={clsx(
-      'static',
-      {
-        'transition-opacity ease-in duration-1000 opacity-100': load == true,
-        'opacity-0': load==false,
-      }
-    )}>
-      <div className="absolute top-40 left-60">
-        <Link href="/stages/email">
-          <FontAwesomeIcon className="fa-2xl text-blue-500 transition ease-in-out delay-50 hover:-translate-x-4 duration-300" icon={faArrowLeft} />
-        </Link>
-      </div>
-      <div className="absolute top-64 left-60 text-2xl font-bold">
-        <p>Select all your user appliances from among the following list</p>
-      </div>
-      <div className="absolute top-80 left-60 font-medium">
-        <div className="static w-3/4">
+    // <div className={clsx(
+    //   'static',
+    //   {
+    //     'transition-opacity ease-in duration-1000 opacity-100': load == true,
+    //     'opacity-0': load==false,
+    //   }
+    // )}>
+    <div className="flex flex-row h-screen w-full">
+        <div className="basis-128 lg:basis-auto flex flex-col h-[38rem] lg:h-[38rem] mx-auto mt-32 md:w-1/2 p-10">
+          <Link className="flex-1 self-start" href="/stages/email">
+            <FontAwesomeIcon className="fa-2xl text-blue-500 transition ease-in-out delay-50 hover:-translate-x-4 duration-300" icon={faArrowLeft} />
+          </Link>
+          <p className="flex-1 self-start text-2xl font-bold">Select all your user appliances</p>
+          <div className="flex flex-row flex-wrap">
             {appliances.map((appliance) => (
-                <ApplianceCard key={appliance} title={appliance} toggleAppliance={handleToggleAppliance} selectedAppliances={selectedAppliances} />
+              <ApplianceCard key={appliance} title={appliance} toggleAppliance={handleToggleAppliance} selectedAppliances={selectedAppliances} />
             ))}
-        </div>
-        <div className={clsx('text-red-300',
+          </div>
+          <p className={clsx('flex-1 self-start text-red-300',
           {
             'invisible': validBoolean === true,
             'visible': validBoolean === false,
           })}>
-          <p>Please select some appliances</p>
+            Please select some appliances
+          </p>
+          <NavigationButton className="flex flex-row w-full justify-center" onSubmit={handleSubmitAppliances} content="Next"/>
         </div>
-      </div>
-        <button 
-          className="absolute bottom-52 left-60"
-          onClick={()=>{
-            handleSubmitAppliances()
-          }}
-        >
-          Next
-        </button>
-        <NavigationButton onSubmit={handleSubmitAppliances} content="Next"/>
     </div>
+    // </div>
   );
 }

@@ -2,18 +2,21 @@
 
 import computeEnergyOfAppliances, { computeMinimumEnergy } from '@/app/lib/compute-energy'
 
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useSyncExternalStore, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link";
 import { NavigationButton } from '@/app/ui/button';
+import { useLocalStorage } from '@/app/hooks/useLocalStorage';
+import { parseLocalStorage } from '@/app/utils/parseLocalStorage'
 
 const maximumDailyEnergyUsage = 75
 
-export default function Step3() {
+export default function EnergyTotalPage() {
   const router = useRouter()
+  const storage = useLocalStorage()
   const [totalEnergy, setTotalEnergy] = useState(0)
   const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
@@ -39,67 +42,53 @@ export default function Step3() {
   const handleSubmitTotalEnergy=()=>{
     if (totalEnergy >= minimumDailyEnergyUsage && totalEnergy <= maximumDailyEnergyUsage) {
         saveTotalEnergyInLocalStorage()
-        const applianceEnergies = computeEnergyOfAppliances(appliances, totalEnergy)
-        saveEnergiesInLocalStorage(applianceEnergies)
+        saveEnergiesInLocalStorage(computeEnergyOfAppliances(appliances, totalEnergy))
         router.push('/stages/results')
     } else {
         setValidBoolean(false)
     }
   }
   useEffect(()=>{
-    if (localStorage.getItem("totalEnergy")!=null){
-      let storedTotalEnergy:any = localStorage.getItem("totalEnergy")
+    if (storage.getItem("totalEnergy")!=null){
+      let storedTotalEnergy: SetStateAction<number> = Number(localStorage.getItem("totalEnergy")) || -1
       setTotalEnergy(storedTotalEnergy)
     }
-    const appliancesStringified:any = localStorage.getItem("appliances")
-    const appliances=JSON.parse(appliancesStringified)
-    setAppliances(appliances)
-    let minimumEnergy = computeMinimumEnergy(appliances)
-    setMinimumDailyEnergyUsage(minimumEnergy)
+    setAppliances(parseLocalStorage(localStorage, "appliances"))
+    setMinimumDailyEnergyUsage(computeMinimumEnergy(appliances))
     setLoad(true)
   }, [])
   return (
-    <div className={clsx(
-      'static',
-      {
-        'transition-opacity ease-in duration-1000 opacity-100': load == true,
-        'opacity-0': load==false,
-      }
-    )}>
-      <div className="absolute top-40 left-60">
-        <Link href="/stages/appliances">
+    // <div className={clsx(
+    //   'static',
+    //   {
+    //     'transition-opacity ease-in duration-1000 opacity-100': load == true,
+    //     'opacity-0': load==false,
+    //   }
+    // )}>
+    <div className="flex flex-row h-screen w-full">
+      <div className="basis-128 lg:basis-auto flex flex-col h-128 mx-auto mt-32 md:w-1/2 p-10">
+        <Link className="flex-1 self-start" href="/stages/appliances">
           <FontAwesomeIcon className="fa-2xl text-blue-500 transition ease-in-out delay-50 hover:-translate-x-4 duration-300" icon={faArrowLeft} />
         </Link>
-      </div>
-      <div className="absolute top-64 left-60 text-2xl font-bold">
-        <p>Enter the total daily energy consumed in your home (in kWh)</p>
-      </div>
-      <div className="absolute top-80 left-60 w-3/4 h-14">
+        <p className='flex-1 self-start text-2xl font-bold'>Enter the total daily energy consumed in your home (in kWh)</p>
         <input 
-            className="border-2 border-zinc-300 w-3/4 h-14 rounded-2xl px-6" 
+            className="border-2 border-zinc-300 w-full h-14 rounded-2xl px-6" 
             type="text"
             value={totalEnergy != 0 ? totalEnergy : ''}
             placeholder="Total energy in kWh"
             onChange={onEnergyUsageChange}
         >
         </input>
-        <div className={clsx('pt-6 text-red-300',
+        <p className={clsx('flex-1 self-start pt-6 text-red-300',
           {
             'invisible': validBoolean === true,
             'visible': validBoolean === false,
           })}>
-          <p>Enter a value between {minimumDailyEnergyUsage} and {maximumDailyEnergyUsage}</p>
-        </div>
+          Enter a value between {minimumDailyEnergyUsage} and {maximumDailyEnergyUsage}
+        </p>
+        <NavigationButton className="flex flex-row w-full justify-center" onSubmit={handleSubmitTotalEnergy} content="Proceed to results"/>
       </div>
-        <button 
-          className="absolute bottom-52 left-60"
-          onClick={()=>{
-            handleSubmitTotalEnergy()
-          }}
-        >
-          Proceed to results
-        </button>
-        <NavigationButton onSubmit={handleSubmitTotalEnergy} content="Proceed to results"/>
     </div>
+    // </div>
   );
 }

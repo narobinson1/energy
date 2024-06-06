@@ -17,6 +17,9 @@ const config: Config = {
       animation: {
         fade: 'fadeOut 5s ease-in-out',
       },
+      spacing: {
+        '128': '32rem',
+      },
 
       // that is actual animation
       keyframes: theme => ({

@@ -21,7 +21,7 @@ export function ResultCard({
     return (
       <div className='transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-110 duration-300'>
         <div className={clsx(
-        'my-4 py-4 px-4 bg-zinc-100 grid grid-cols-4 gap-3 justify-center rounded-lg font-semibold',
+        'my-1 py-2 px-4 bg-zinc-100 grid grid-cols-4 gap-3 justify-center rounded-lg text-sm font-semibold mt-3',
         {
           'transition-opacity ease-in duration-1000 opacity-100': load == true,
           'opacity-0': load==false,

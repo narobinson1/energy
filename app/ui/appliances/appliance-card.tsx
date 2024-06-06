@@ -33,7 +33,7 @@ export function ApplianceCard({
       <div className="inline-block pr-8 pb-6">
         <button 
           className={clsx(
-            'border px-6 py-4 text-2xl rounded-lg',
+            'border px-4 py-2 text-lg rounded-lg',
             {
               'border-zinc-300 transition-colors ease-in duration-200': toggled == false,
               'bg-blue-100 transition-colors ease-in duration-200': toggled == true,

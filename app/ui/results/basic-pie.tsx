@@ -34,7 +34,7 @@ export default function BasicPie({
             margin={{
                 left: 0,
                 right: 160,
-                top: 0,
+                top: 60,
                 bottom: 0,
             }}
             slotProps={{
