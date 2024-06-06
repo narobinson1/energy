@@ -24,7 +24,7 @@ const categoryDuration = {
     "L":[4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 }
 
-function sortIntoCategories(listOfSelectedAppliances) {
+export function sortIntoCategories(listOfSelectedAppliances) {
     const F_list = []
     const A_list = []
     const L_list = []
@@ -92,7 +92,7 @@ export function computeMinimumEnergy(listOfSelectedAppliances){
     return minimumEnergyRounded
 }
 
-function findHoursOfAppliances(listOfSelectedAppliances, totalEnergy) {
+export function findHoursOfAppliances(listOfSelectedAppliances, totalEnergy) {
     const appliancesInCategoryLists = sortIntoCategories(listOfSelectedAppliances)
     let max = 0
     let max_index = 0
@@ -114,6 +114,15 @@ function findHoursOfAppliances(listOfSelectedAppliances, totalEnergy) {
                 }
             }
         }
+    }
+    if (sortIntoCategories(listOfSelectedAppliances)["F"].length == 0) {
+        max_index[0] = 0
+    }
+    if (sortIntoCategories(listOfSelectedAppliances)["A"].length == 0) {
+        max_index[1] = 0
+    }
+    if (sortIntoCategories(listOfSelectedAppliances)["L"].length == 0) {
+        max_index[2] = 0
     }
     return max_index
 }
