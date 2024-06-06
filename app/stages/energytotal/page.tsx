@@ -9,14 +9,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link";
 import { NavigationButton } from '@/app/ui/button';
-import { useLocalStorage } from '@/app/hooks/useLocalStorage';
 import { parseLocalStorage } from '@/app/utils/parseLocalStorage'
 
 const maximumDailyEnergyUsage = 75
 
 export default function EnergyTotalPage() {
   const router = useRouter()
-  const storage = useLocalStorage()
   const [totalEnergy, setTotalEnergy] = useState(0)
   const [appliances,setAppliances]=useState([''])
   const [validBoolean, setValidBoolean] = useState(true)
@@ -49,7 +47,7 @@ export default function EnergyTotalPage() {
     }
   }
   useEffect(()=>{
-    if (storage.getItem("totalEnergy")!=null){
+    if (localStorage.getItem("totalEnergy")!=null){
       let storedTotalEnergy: SetStateAction<number> = Number(localStorage.getItem("totalEnergy")) || -1
       setTotalEnergy(storedTotalEnergy)
     }
